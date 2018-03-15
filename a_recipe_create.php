@@ -79,48 +79,26 @@ require_once 'actions/dbconnect.php';
 
 <div><hr class="style5 mt-4"></div>
 
-<!-- #####################    RECIPE     ############################ -->
-    <div class="row">
-        <fieldset>
-            <form action="a_recipe_create.php" method="post">
-                <table cellspacing="0" cellpadding="0">
-                    <tr>
-                        <th>Recipe Name</th>
-                        <td><input type="text" name="rName" placeholder="What is your recipe called?" style='width:30rem'/></td>
-                    </tr>     
-                    <tr>
-                        <th>Cooking Method</th>
-                        <td><textarea name="cMethod" cols="80" rows="5" placeholder="How do you cook this recipe?"></textarea></td>
-                    </tr>
-                    <tr>
-                        <th>Preparation Instructions</th>
-                        <td><textarea name="cInstructions" cols="80" rows="5" placeholder="Step by step preparation."></textarea>
-                        </td>
-                    </tr>     
-                    <tr>
-                        <th>Recipe Origin</th>
-                        <td><input type="text" name="rOrigin" placeholder="Where did you get this recipe from?" style='width:30rem' /></td>
-                    </tr>  
-                    <tr>
-                        <th>Image</th>
-                        <td><input type="text" name="rImage" placeholder="Please choose an image for your recipe." style='width:30rem' /></td>
-                    </tr> 
-                    <tr>
-                        <th> </th>
-                        <td><br><button type="submit" class="btn btn-success">Add Recipe</button></td>
-                    </tr> 
-                </table>
-            </form>
-        </fieldset>        
-    </div>
+<?php  
+if($_POST) {
+    $recipeName = $_POST['rName'];
+    $recipeMethod = $_POST['cMethod'];
+    $cookingInstructions = $_POST['cInstructions'];
+    $recipeOrigin = $_POST['rOrigin'];
+    $recipeImage = $_POST['rImage'];
 
 
-</main>
+    $sql = "INSERT INTO recipe (name, cookingMethod, instructions, origin) VALUES ('$recipeName', '$recipeMethod', '$cookingInstructions', '$recipeOrigin')";
+    if($conn->query($sql) === TRUE) {
+        echo "<p>New Recipe Successfully Created</p>";
+        echo "<a href='addingredients.php'><button type='button' class='btn btn-info'>Continue to Ingredients List</button></a> &nbsp;";
+        echo "<a href='home.php'><button type='button' class='btn btn-success'>Home</button></a>";
+    } else {
+        echo "Error " . $sql . ' ' . $conn->connect_error;
+    }
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  </body>
+    $conn->close();
+}
+?>
+</body>
 </html>
